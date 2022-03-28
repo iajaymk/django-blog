@@ -10,7 +10,7 @@
             <section class="section">
                 <div class="columns">
                 <div class="column is-8 is-offset-2">
-                    {% for post in category.posts.all %}
+                    {% for post in posts %}
                         <div class="content is-medium">
                             <a href="{% url 'post_detail' post.category.slug post.slug %}">
                                 <h2 class="subtitle is-4">{{ post.created_at|timesince}} ago</h2>
@@ -18,6 +18,10 @@
                                 <p>{{ post.intro }}</p>
                             </a>
                         </div>
+                        {% empty %}
+                            <div class="content">
+                                <p>There is no posts in this category</p>
+                            </div>
                     {% endfor %}
                 </div>
                 </div>

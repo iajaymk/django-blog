@@ -4,7 +4,7 @@ from .forms import CommentForm
 
 
 def home(request):
-    posts = Post.objects.all()
+    posts = Post.objects.filter(status=Post.ACTIVE)
 
     return render(request,"posts/home.html",{'posts':posts})
 
@@ -13,7 +13,7 @@ def about(request):
 
 
 def detail(request, category_slug, slug):
-    post = get_object_or_404(Post, slug = slug)
+    post = get_object_or_404(Post, slug = slug, status = Post.ACTIVE)
 
     if request.method == 'POST':
         form = CommentForm(request.POST)
@@ -32,5 +32,6 @@ def detail(request, category_slug, slug):
 
 def category(request, slug):
     category = get_object_or_404(Category, slug=slug)
+    posts = category.posts.filter(status = Post.ACTIVE)
 
-    return render(request,"posts/category.html",{'category': category})
+    return render(request,"posts/category.html",{'category': category, 'posts': posts})
