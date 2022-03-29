@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.db.models import Q
 from turtle import title
 from django.shortcuts import render, get_object_or_404, redirect
@@ -44,3 +45,11 @@ def search(request):
     posts = Post.objects.filter(status=Post.ACTIVE).filter(Q(title__icontains = query) | Q(intro__icontains=query) | Q(body__icontains= query))
 
     return render(request, 'posts/search.html',{'posts':posts,'query':query})
+
+
+def robots_txt(request):
+    text = [
+        "User-Agent:*",
+        "Disallow:/admin/",
+    ]
+    return HttpResponse("\n".join(text),content_type="text/plain")
